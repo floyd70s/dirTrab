@@ -119,7 +119,7 @@ namespace dirTrab
                     string sTIFFLocal = TIFFPath + sAID + "_archivo_01.tiff";
                     string sTXTLocal = TXTPath + sAID + "_archivo_01";
 
-                    miJurAdmin.textoSentencia = miOCR.PdfToText(sPDFLocal, sTIFFLocal, sTXTLocal);
+                    miJurAdmin.textoSentencia = miOCR.PdfToText(sPDFLocal, sTIFFLocal, sTXTLocal, TIFFPath, TXTPath);
 
                     miJurAdmin.addElement();
                     miDirTrab.update();
