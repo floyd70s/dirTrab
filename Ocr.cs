@@ -22,7 +22,7 @@ namespace dirTrab
             if (sMode == "win")
             {
                 ExecuteCommand("-l eng " + sTIFFFilePath + " " + sTXTFilePath );
-                sText = FileToText(sTXTFilePath);
+                sText = FileToText(sTXTFilePath+".txt");
                 cleanFolderWin(sTIFFPath, ".tiff");
                 cleanFolderWin(sTXTFPath, ".txt");
             }
