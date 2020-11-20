@@ -276,14 +276,19 @@ namespace dirTrab
         /// <param name="PDFPath">path for save PDF file</param>
         /// <param name="sAid">unique ID for PDF file</param>
         /// <returns> string with link </returns>
-        public string savePdf(string sAid)
+        public string savePdf(string sAid, string PDFPath, string sMode)
         {
-            string PDFPath = ConfigurationManager.AppSettings["PDFPath"];               //Path to save PDF
+                  
             string sUrlPDF = "https://www.dt.gob.cl/legislacion/1624/articles-" + sAid + "_recurso_pdf.pdf";
-
-            //string sLocalPDF = PDFPath + "\\" + sAid + "_archivo_01.pdf";
-            string sLocalPDF = PDFPath + sAid + "_archivo_01.pdf";
-
+            string sLocalPDF = "";
+            if (sMode == "win")
+            {
+              sLocalPDF = PDFPath + "\\" + sAid + "_archivo_01.pdf";
+            }
+            else
+            {
+              sLocalPDF = PDFPath + sAid + "_archivo_01.pdf";
+            }
             Console.WriteLine("salida de sLocalPDF: " + sLocalPDF);
 
             try
@@ -299,19 +304,25 @@ namespace dirTrab
             {
                 // handle 404 exceptions
                 //Not found
-                Console.WriteLine("El archivo {0} fue remapeado", sUrlPDF);
-                sUrlPDF = "https://www.dt.gob.cl/legislacion/1624/articles-" + sAid + "_recurso_1.pdf   ";
-
+                Console.WriteLine("El archivo {0} no pudo ser encontrado", sUrlPDF);
+                sUrlPDF = "no disponible";
+                return sUrlPDF;
             }
             catch (WebException ex)
             {
                 // handle other web exceptions
                 Console.WriteLine("No fue posible descargar el archivo {0} Error: {1}", sAid, ex.Message);
             }
-
-            using (WebClient webClient = new WebClient())
+            if (sUrlPDF != "no disponible")
             {
-                webClient.DownloadFile(sUrlPDF, sLocalPDF);
+                using (WebClient webClient = new WebClient())
+                {
+                    webClient.DownloadFile(sUrlPDF, sLocalPDF);
+                    return sUrlPDF;
+                }
+            }
+            else
+            {
                 return sUrlPDF;
             }
         }

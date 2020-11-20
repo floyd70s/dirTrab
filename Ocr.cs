@@ -18,10 +18,11 @@ namespace dirTrab
         {
             string sText = "";
             PdfToTiff(sPDFFilePath, sTIFFFilePath);
+
             if (sMode == "win")
             {
-                ExecuteCommand("tesseract -l eng " + sTIFFFilePath + " " + sTXTFilePath);
-                sText = FileToText(sTXTFilePath + ".txt");
+                ExecuteCommand("-l eng " + sTIFFFilePath + " " + sTXTFilePath);
+                sText = FileToText(sTXTFilePath);
                 cleanFolderWin(sTIFFPath, ".tiff");
                 cleanFolderWin(sTXTFPath, ".txt");
             }
@@ -72,30 +73,36 @@ namespace dirTrab
             return "Borrado de  directorios temporales de conversion OCR OK";
         }
 
-        public static void ExecuteCommand(string command)
+        public static void ExecuteMacCommand(string command)
         {
-            var processInfo = new ProcessStartInfo("cmd", "/c " + command);
-            processInfo.CreateNoWindow = true;
-            processInfo.UseShellExecute = false;
-            processInfo.RedirectStandardError = true;
-            processInfo.RedirectStandardOutput = true;
+            Console.WriteLine("Inicio Conversion a TXT");
+            Process proc = new System.Diagnostics.Process();
+            proc.StartInfo.FileName = "/bin/bash";
+            proc.StartInfo.Arguments = "-c \" " + command + " \"";
+            proc.StartInfo.UseShellExecute = false;
+            proc.StartInfo.RedirectStandardOutput = true;
+            proc.Start();
 
-            var process = Process.Start(processInfo);
-
-            process.OutputDataReceived += (object sender, DataReceivedEventArgs e) =>
-                Console.WriteLine("output>>" + e.Data);
-            process.BeginOutputReadLine();
-
-            process.ErrorDataReceived += (object sender, DataReceivedEventArgs e) =>
-                Console.WriteLine("error>>" + e.Data);
-            process.BeginErrorReadLine();
-
-            process.WaitForExit();
-
-            Console.WriteLine("ExitCode: {0}", process.ExitCode);
-            process.Close();
-
+            while (!proc.StandardOutput.EndOfStream)
+            {
+                Console.WriteLine(proc.StandardOutput.ReadLine());
+            }
         }
+
+        public static void ExecuteCommand(string command)
+        {    
+            Console.WriteLine("Inicio Conversion OCR a TXT");
+            ProcessStartInfo psi = new ProcessStartInfo();
+            psi.UseShellExecute = false;
+            psi.Arguments = command;
+            psi.CreateNoWindow = true;
+            psi.WindowStyle = ProcessWindowStyle.Normal;
+            psi.FileName = @"C:\\Program Files\\Tesseract-OCR\\tesseract.exe ";
+            Process.Start(psi);
+        }
+
+       
+
         public static void PdfToTiff(string sPathPdf, string sPathTiff)
         {
             try
@@ -121,29 +128,15 @@ namespace dirTrab
                         pages.Add(i + 1);
                 }
 
-
                 doc.SaveAsTiff(sPathTiff, null, options);
             }
-            catch
+            catch (Exception ex)
             {
-
+                // handle other web exceptions
+                Console.WriteLine("No fue posible descargar el archivo a TIFF  Error: {1}",  ex.Message);
             }
         }
-        public static void ExecuteMacCommand(string command)
-        {
-            Console.WriteLine("Inicio Conversion a TXT");
-            Process proc = new System.Diagnostics.Process();
-            proc.StartInfo.FileName = "/bin/bash";
-            proc.StartInfo.Arguments = "-c \" " + command + " \"";
-            proc.StartInfo.UseShellExecute = false;
-            proc.StartInfo.RedirectStandardOutput = true;
-            proc.Start();
-
-            while (!proc.StandardOutput.EndOfStream)
-            {
-                Console.WriteLine(proc.StandardOutput.ReadLine());
-            }
-        }
+       
 
         public static string FileToText(string sPathTxt)
         {
@@ -152,8 +145,9 @@ namespace dirTrab
             String line = "";
             try
             {
-                //Pass the file path and file name to the StreamReader constructor
-                StreamReader sr = new StreamReader(sPathTxt);
+            //Pass the file path and file name to the StreamReader constructor
+           
+            StreamReader sr = new StreamReader(sPathTxt);
                 //Read the first line of text
                 line = sr.ReadLine();
                 //Continue to read until you reach end of file

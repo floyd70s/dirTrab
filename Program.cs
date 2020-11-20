@@ -14,6 +14,7 @@ namespace dirTrab
         public static void Main(string[] args)
         {
             string sMode = ConfigurationManager.AppSettings["Mode"];                    // execution mode: win/mac
+            string sDebug = ConfigurationManager.AppSettings["Debug"];                  // Debug mode: on/off
             Console.WriteLine("****************************************");
             Console.WriteLine(" LEGAL BOT - DIRECCION DEL TRABAJO ");
             Console.WriteLine(" Version 1.0.0  19-11-2020");
@@ -126,7 +127,7 @@ namespace dirTrab
                     miJurAdmin.fechaRegistro = Convert.ToDateTime(dtRow[4]);
                     miJurAdmin.linkOrigen = dtRow[0].ToString() + "_archivo_01.pdf";
                     miJurAdmin.tipoDocumento = Convert.ToInt32(ConfigurationManager.AppSettings["DocumentType"]);
-                    miJurAdmin.linkOrigen = miDirTrab.savePdf(sAID);
+                    miJurAdmin.linkOrigen = miDirTrab.savePdf(sAID, PDFPath,sMode);
 
 
                     string sURLDetail = "https://www.dt.gob.cl/legislacion/1624/w3-article-" + sAID + ".html";
@@ -140,7 +141,7 @@ namespace dirTrab
                         // WIN VERSION
                         sPDFLocal = PDFPath + "\\" + sAID + "_archivo_01.pdf";
                         sTIFFLocal = TIFFPath + "\\" + sAID + "_archivo_01.tiff";
-                        sTXTLocal = TXTPath + "\\" + sAID + "_archivo_01";
+                        sTXTLocal = TXTPath + "\\" + sAID + "_archivo_01.txt";
                     }
                     else
                     {
@@ -150,14 +151,19 @@ namespace dirTrab
                         sTXTLocal = TXTPath + sAID + "_archivo_01";
                     }
 
-                    miJurAdmin.textoSentencia = miOCR.PdfToText(sMode, sPDFLocal, sTIFFLocal, sTXTLocal, TIFFPath, TXTPath);
-
+                    if (miJurAdmin.linkOrigen != "no disponible")
+                    {
+                        miJurAdmin.textoSentencia = miOCR.PdfToText(sMode, sPDFLocal, sTIFFLocal, sTXTLocal, TIFFPath, TXTPath);
+                    }
+                    else
+                    {
+                        miJurAdmin.textoSentencia = "no disponible ya que no se dispone del pdf de la sentencia.";
+                    }
                     miJurAdmin.addElement();
                     miDirTrab.update();
                     iCountJur++;
                 }
             }
-
             #region COMMENTS
             Console.WriteLine("-----------------------------------------------------------------");
             Console.WriteLine("-- PASO 1                                                        ");
@@ -178,8 +184,10 @@ namespace dirTrab
             Console.WriteLine("-- TOTAL DE REGISTROS NO INGRESADOS:" + iCountNoNewsJur);
             Console.WriteLine("-----------------------------------------------------------------");
             #endregion
-
-            Console.ReadLine();
+            if (sDebug == "on")
+            {
+                Console.ReadLine();
+            }
         }
     }
 }
