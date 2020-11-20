@@ -15,10 +15,12 @@ namespace dirTrab
         {
             string sMode = ConfigurationManager.AppSettings["Mode"];                    // execution mode: win/mac
             string sDebug = ConfigurationManager.AppSettings["Debug"];                  // Debug mode: on/off
+            string sLanguage = ConfigurationManager.AppSettings["Language"];            // Language: eng/spa
             Console.WriteLine("****************************************");
             Console.WriteLine(" LEGAL BOT - DIRECCION DEL TRABAJO ");
             Console.WriteLine(" Version 1.0.0  19-11-2020");
             Console.WriteLine(" Modo de ejecucion: " + sMode);
+            Console.WriteLine(" inicio de ejecucion: " + DateTime.Now);
             Console.WriteLine("****************************************");
             int range = Convert.ToInt32(ConfigurationManager.AppSettings["range"]);     // 365 days
 
@@ -153,11 +155,11 @@ namespace dirTrab
 
                     if (miJurAdmin.linkOrigen != "no disponible")
                     {
-                        miJurAdmin.textoSentencia = miOCR.PdfToText(sMode, sPDFLocal, sTIFFLocal, sTXTLocal, TIFFPath, TXTPath);
+                        miJurAdmin.textoSentencia = miOCR.PdfToText(sMode, sPDFLocal, sTIFFLocal, sTXTLocal, TIFFPath, TXTPath, sLanguage);
                     }
                     else
                     {
-                        miJurAdmin.textoSentencia = "no disponible ya que no se dispone del pdf de la sentencia.";
+                        miJurAdmin.textoSentencia = "no disponible ya que no se encuentra del pdf de la sentencia.";
                     }
                     miJurAdmin.addElement();
                     miDirTrab.update();

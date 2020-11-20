@@ -14,21 +14,21 @@ namespace dirTrab
         {
         }
 
-        public string PdfToText(string sMode, string sPDFFilePath, string sTIFFFilePath, string sTXTFilePath, string sTIFFPath, string sTXTFPath)
+        public string PdfToText(string sMode, string sPDFFilePath, string sTIFFFilePath, string sTXTFilePath, string sTIFFPath, string sTXTFPath, string sLanguage)
         {
             string sText = "";
             PdfToTiff(sPDFFilePath, sTIFFFilePath);
 
             if (sMode == "win")
             {
-                ExecuteCommand("-l eng " + sTIFFFilePath + " " + sTXTFilePath );
+                ExecuteCommand("C:\\Program Files\\Tesseract-OCR\\tesseract.exe ","-l " + sLanguage + " " + sTIFFFilePath + " " + sTXTFilePath );
                 sText = FileToText(sTXTFilePath+".txt");
                 cleanFolderWin(sTIFFPath, ".tiff");
                 cleanFolderWin(sTXTFPath, ".txt");
             }
             else
             {
-                ExecuteMacCommand("tesseract -l eng " + sTIFFFilePath + " " + sTXTFilePath);
+                ExecuteMacCommand("tesseract -l " + sLanguage + " " + sTIFFFilePath + " " + sTXTFilePath);
                 sText = FileToText(sTXTFilePath + ".txt");
                 cleanFolderMac(sTIFFPath, ".tiff");
                 cleanFolderMac(sTXTFPath, ".txt");
@@ -59,7 +59,7 @@ namespace dirTrab
         {
             try
             {
-                ExecuteCommand(" DEL /F /A " + sPath + sExt);
+                ExecuteCommand("CMD"," DEL /F /A " + sPath + sExt);
             }
             catch (Exception e)
             {
@@ -89,7 +89,7 @@ namespace dirTrab
             }
         }
 
-        public static void ExecuteCommand(string command)
+        public static void ExecuteCommand(string sProgram, string command)
         {    
             Console.WriteLine("Inicio Conversion OCR a TXT");
             ProcessStartInfo psi = new ProcessStartInfo();
@@ -97,7 +97,7 @@ namespace dirTrab
             psi.Arguments = command;
             psi.CreateNoWindow = true;
             psi.WindowStyle = ProcessWindowStyle.Normal;
-            psi.FileName = @"C:\\Program Files\\Tesseract-OCR\\tesseract.exe ";
+            psi.FileName = @sProgram;
             Process.Start(psi);
         }
 
