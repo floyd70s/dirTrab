@@ -21,7 +21,7 @@ namespace dirTrab
 
             if (sMode == "win")
             {
-                ExecuteCommand("-l eng " + sTIFFFilePath + " " + sTXTFilePath);
+                ExecuteCommand("-l eng " + sTIFFFilePath + " " + sTXTFilePath );
                 sText = FileToText(sTXTFilePath);
                 cleanFolderWin(sTIFFPath, ".tiff");
                 cleanFolderWin(sTXTFPath, ".txt");
@@ -142,25 +142,10 @@ namespace dirTrab
         {
             Console.WriteLine("Inicio de lectura de Texto desde TXT");
             String sTextFile = "";
-            String line = "";
+           
             try
             {
-            //Pass the file path and file name to the StreamReader constructor
-           
-            StreamReader sr = new StreamReader(sPathTxt);
-                //Read the first line of text
-                line = sr.ReadLine();
-                //Continue to read until you reach end of file
-                while (line != null)
-                {
-                    // Concat Text
-                    sTextFile += line;
-
-                    //Read the next line
-                    line = sr.ReadLine();
-                }
-                //close the file
-                sr.Close();
+                sTextFile = System.IO.File.ReadAllText(@sPathTxt);
                 return sTextFile;
             }
             catch (Exception e)
