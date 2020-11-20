@@ -148,7 +148,7 @@ namespace dirTrab
         {
             int iniJson = siteBase.IndexOf("\"results\": [");
             int endJson = siteBase.IndexOf("properties");
-            return siteBase.Substring(iniJson +11 , endJson - iniJson - 14);
+            return siteBase.Substring(iniJson + 11, endJson - iniJson - 14);
         }
 
         public static string SaveToFile(string sInfo, string path)
@@ -300,7 +300,7 @@ namespace dirTrab
                 // handle 404 exceptions
                 //Not found
                 Console.WriteLine("El archivo {0} fue remapeado", sUrlPDF);
-                sUrlPDF = "https://www.dt.gob.cl/legislacion/1624/articles-"+ sAid+"_recurso_1.pdf   ";
+                sUrlPDF = "https://www.dt.gob.cl/legislacion/1624/articles-" + sAid + "_recurso_1.pdf   ";
 
             }
             catch (WebException ex)
@@ -315,7 +315,7 @@ namespace dirTrab
                 return sUrlPDF;
             }
         }
-        
+
         /// <summary>
         /// Extract text from PDFFile
         /// </summary>

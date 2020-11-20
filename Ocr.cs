@@ -14,17 +14,29 @@ namespace dirTrab
         {
         }
 
-        public string  PdfToText(string sPDFFilePath, string sTIFFFilePath, string sTXTFilePath, string sTIFFPath, string sTXTFPath)
+        public string PdfToText(string sMode, string sPDFFilePath, string sTIFFFilePath, string sTXTFilePath, string sTIFFPath, string sTXTFPath)
         {
+            string sText = "";
             PdfToTiff(sPDFFilePath, sTIFFFilePath);
-            ExecuteMacCommand("tesseract -l eng "+ sTIFFFilePath + " " + sTXTFilePath);
-            string sText = FileToText(sTXTFilePath + ".txt");
-            cleanFolderMac(sTIFFPath, ".tiff");
-            cleanFolderMac(sTXTFPath, ".txt");
+            if (sMode == "win")
+            {
+                ExecuteCommand("tesseract -l eng " + sTIFFFilePath + " " + sTXTFilePath);
+                sText = FileToText(sTXTFilePath + ".txt");
+                cleanFolderWin(sTIFFPath, ".tiff");
+                cleanFolderWin(sTXTFPath, ".txt");
+            }
+            else
+            {
+                ExecuteMacCommand("tesseract -l eng " + sTIFFFilePath + " " + sTXTFilePath);
+                sText = FileToText(sTXTFilePath + ".txt");
+                cleanFolderMac(sTIFFPath, ".tiff");
+                cleanFolderMac(sTXTFPath, ".txt");
+            }
+
             return sText;
         }
 
-        public string cleanFolderMac(string sPath,string sExt)
+        public string cleanFolderMac(string sPath, string sExt)
         {
             try
             {
@@ -41,9 +53,28 @@ namespace dirTrab
             }
             return "Borrado de  directorios temporales de conversion OCR OK";
         }
+
+        public string cleanFolderWin(string sPath, string sExt)
+        {
+            try
+            {
+                ExecuteCommand(" DEL /F /A " + sPath + sExt);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception: " + e.Message);
+                return "no fue posible borrar los directorios temporales de conversion OCR.";
+            }
+            finally
+            {
+                Console.WriteLine("Error en la limpieza de directorios.");
+            }
+            return "Borrado de  directorios temporales de conversion OCR OK";
+        }
+
         public static void ExecuteCommand(string command)
         {
-            var processInfo = new ProcessStartInfo("terminal", "/c " + command);
+            var processInfo = new ProcessStartInfo("cmd", "/c " + command);
             processInfo.CreateNoWindow = true;
             processInfo.UseShellExecute = false;
             processInfo.RedirectStandardError = true;
@@ -71,7 +102,7 @@ namespace dirTrab
             {
                 Console.WriteLine("Inicio Conversion a TIFF");
                 GcPdfDocument doc = new GcPdfDocument();
-                //var fs = new FileStream(Path.Combine("Resources", "c:\\tempdoc\\docs\\Trabajo.pdf"), FileMode.Open, FileAccess.Read);
+
                 var fs = new FileStream(Path.Combine("Resources", sPathPdf), FileMode.Open, FileAccess.Read);
                 doc.Load(fs, "");
 
@@ -81,7 +112,7 @@ namespace dirTrab
                 //The tiff file must have high resolution
                 options.Resolution = 350;
 
-                //Seteamos el rango de paginas, para suseso eliminamos la primera pagina
+                //Set range for page
                 int paginas = doc.Pages.Count;
                 List<int> pages = new List<int>();
                 for (int i = 0; i < paginas; i++)
@@ -90,18 +121,12 @@ namespace dirTrab
                         pages.Add(i + 1);
                 }
 
-                //Para suseso eliminamos la primera pagina, estableciendo un rango desde la pagina 2 hasta el final
-                //GrapeCity.Documents.Common.OutputRange rango = new GrapeCity.Documents.Common.OutputRange(pages.ToArray());
-                //doc.SaveAsTiff("c:\\tempdoc\\imgs\\suseso.tiff", rango, options);
 
-                //Para la direccion del trabajo empezamos desde la pagina 1
-                //doc.SaveAsTiff("c:\\tempdoc\\imgs\\trabajo.tiff", null, options);
                 doc.SaveAsTiff(sPathTiff, null, options);
-               
             }
             catch
             {
-                
+
             }
         }
         public static void ExecuteMacCommand(string command)
@@ -120,10 +145,11 @@ namespace dirTrab
             }
         }
 
-        public static string FileToText(string sPathTxt) {
+        public static string FileToText(string sPathTxt)
+        {
             Console.WriteLine("Inicio de lectura de Texto desde TXT");
-            String sTextFile="";
-            String line="";
+            String sTextFile = "";
+            String line = "";
             try
             {
                 //Pass the file path and file name to the StreamReader constructor
