@@ -21,7 +21,9 @@ namespace dirTrab
 
             if (sMode == "win")
             {
+                Console.WriteLine("proceso antes de tesseract:" + System.Diagnostics.Process.GetCurrentProcess().Id);
                 ExecuteCommand("C:\\Program Files\\Tesseract-OCR\\tesseract.exe ","-l " + sLanguage + " " + sTIFFFilePath + " " + sTXTFilePath );
+                Console.WriteLine("proceso despues de tesseract" + System.Diagnostics.Process.GetCurrentProcess().Id);
                 sText = FileToText(sTXTFilePath+".txt");
                 cleanFolderWin(sTIFFPath, ".tiff");
                 cleanFolderWin(sTXTFPath, ".txt");
@@ -142,10 +144,13 @@ namespace dirTrab
         {
             Console.WriteLine("Inicio de lectura de Texto desde TXT");
             String sTextFile = "";
-           
+
             try
             {
-                sTextFile = System.IO.File.ReadAllText(@sPathTxt);
+                Console.WriteLine("sPathTxt:" + sPathTxt);
+                Console.WriteLine("proceso dentro de la funcion FiletoText:"+ System.Diagnostics.Process.GetCurrentProcess().Id);
+                sTextFile = System.IO.File.ReadAllText(@sPathTxt.Trim());
+                
                 return sTextFile;
             }
             catch (Exception e)

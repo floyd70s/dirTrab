@@ -143,7 +143,7 @@ namespace dirTrab
                         // WIN VERSION
                         sPDFLocal = PDFPath + "\\" + sAID + "_archivo_01.pdf";
                         sTIFFLocal = TIFFPath + "\\" + sAID + "_archivo_01.tiff";
-                        sTXTLocal = TXTPath + "\\" + sAID + "_archivo_01";
+                        sTXTLocal = TXTPath + "\\" + sAID + "archivo01";
                     }
                     else
                     {
