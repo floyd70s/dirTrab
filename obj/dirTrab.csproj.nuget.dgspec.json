@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Claudio Perez\\Source\\Repos\\floyd70s\\dirTrab\\dirTrab.csproj": {}
+    "C:\\Users\\Claudio Perez\\source\\repos\\floyd70s\\dirTrab\\dirTrab.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Claudio Perez\\Source\\Repos\\floyd70s\\dirTrab\\dirTrab.csproj": {
+    "C:\\Users\\Claudio Perez\\source\\repos\\floyd70s\\dirTrab\\dirTrab.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Claudio Perez\\Source\\Repos\\floyd70s\\dirTrab\\dirTrab.csproj",
+        "projectUniqueName": "C:\\Users\\Claudio Perez\\source\\repos\\floyd70s\\dirTrab\\dirTrab.csproj",
         "projectName": "dirTrab",
-        "projectPath": "C:\\Users\\Claudio Perez\\Source\\Repos\\floyd70s\\dirTrab\\dirTrab.csproj",
+        "projectPath": "C:\\Users\\Claudio Perez\\source\\repos\\floyd70s\\dirTrab\\dirTrab.csproj",
         "packagesPath": "C:\\Users\\Claudio Perez\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Claudio Perez\\Source\\Repos\\floyd70s\\dirTrab\\obj\\",
+        "outputPath": "C:\\Users\\Claudio Perez\\source\\repos\\floyd70s\\dirTrab\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Claudio Perez\\AppData\\Roaming\\NuGet\\NuGet.Config",

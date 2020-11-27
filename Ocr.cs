@@ -14,6 +14,17 @@ namespace dirTrab
         {
         }
 
+        /// <summary>
+        /// Convert PDF to Text
+        /// </summary>
+        /// <param name="sMode">win o mac mode</param>
+        /// <param name="sPDFFilePath"></param>
+        /// <param name="sTIFFFilePath"></param>
+        /// <param name="sTXTFilePath"></param>
+        /// <param name="sTIFFPath"></param>
+        /// <param name="sTXTFPath"></param>
+        /// <param name="sLanguage"></param>
+        /// <returns></returns>
         public string PdfToText(string sMode, string sPDFFilePath, string sTIFFFilePath, string sTXTFilePath, string sTIFFPath, string sTXTFPath, string sLanguage)
         {
             string sText = "";
@@ -21,29 +32,28 @@ namespace dirTrab
 
             if (sMode == "win")
             {
-                Console.WriteLine("proceso antes de tesseract:" + System.Diagnostics.Process.GetCurrentProcess().Id);
+                //convert TIFF file to Text
                 ExecuteCommand("C:\\Program Files\\Tesseract-OCR\\tesseract.exe ","-l " + sLanguage + " " + sTIFFFilePath + " " + sTXTFilePath );
-                Console.WriteLine("proceso despues de tesseract" + System.Diagnostics.Process.GetCurrentProcess().Id);
-                sText = FileToText(sTXTFilePath+".txt");
-                cleanFolderWin(sTIFFPath, ".tiff");
-                cleanFolderWin(sTXTFPath, ".txt");
+                sText = FileToText(sTXTFilePath + ".txt");
             }
             else
             {
                 ExecuteMacCommand("tesseract -l " + sLanguage + " " + sTIFFFilePath + " " + sTXTFilePath);
                 sText = FileToText(sTXTFilePath + ".txt");
-                cleanFolderMac(sTIFFPath, ".tiff");
-                cleanFolderMac(sTXTFPath, ".txt");
             }
-
             return sText;
         }
-
+        /// <summary>
+        /// delete files from folder in Mac
+        /// </summary>
+        /// <param name="sPath"></param>
+        /// <param name="sExt"></param>
+        /// <returns></returns>
         public string cleanFolderMac(string sPath, string sExt)
         {
             try
             {
-                ExecuteMacCommand("rm -f " + sPath + sExt);
+                ExecuteMacCommand("rm -f " + sPath + "*." + sExt);
             }
             catch (Exception e)
             {
@@ -57,24 +67,32 @@ namespace dirTrab
             return "Borrado de  directorios temporales de conversion OCR OK";
         }
 
-        public string cleanFolderWin(string sPath, string sExt)
+        /// <summary>
+        /// delete files from folder in Windows
+        /// </summary>
+        /// <param name="sPath"></param>
+        /// <param name="sExt"></param>
+        /// <returns></returns>
+        public void cleanFolderWin(string sPath, string sExt)
         {
             try
             {
-                ExecuteCommand("CMD"," DEL /F /A " + sPath + sExt);
+                foreach (var item in Directory.GetFiles(sPath+"\\", "*.*"))
+                {
+                    File.SetAttributes(item, FileAttributes.Normal);
+                    File.Delete(item);
+                }
             }
-            catch (Exception e)
-            {
-                Console.WriteLine("Exception: " + e.Message);
-                return "no fue posible borrar los directorios temporales de conversion OCR.";
+            catch (Exception ex)
+            { 
+               Console.WriteLine("No fue posible limpiar el directorio {0} { Error: {1}", sPath, ex.Message);
             }
-            finally
-            {
-                Console.WriteLine("Error en la limpieza de directorios.");
-            }
-            return "Borrado de  directorios temporales de conversion OCR OK";
         }
 
+        /// <summary>
+        /// execute terminal command in Mac
+        /// </summary>
+        /// <param name="command"></param>
         public static void ExecuteMacCommand(string command)
         {
             Console.WriteLine("Inicio Conversion a TXT");
@@ -90,21 +108,35 @@ namespace dirTrab
                 Console.WriteLine(proc.StandardOutput.ReadLine());
             }
         }
-
+        /// <summary>
+        /// execute CMD command terminal in windows
+        /// </summary>
+        /// <param name="sProgram"></param>
+        /// <param name="command"></param>
         public static void ExecuteCommand(string sProgram, string command)
         {    
             Console.WriteLine("Inicio Conversion OCR a TXT");
-            ProcessStartInfo psi = new ProcessStartInfo();
-            psi.UseShellExecute = false;
-            psi.Arguments = command;
-            psi.CreateNoWindow = true;
-            psi.WindowStyle = ProcessWindowStyle.Normal;
-            psi.FileName = @sProgram;
-            Process.Start(psi);
+            ProcessStartInfo processStartInfo = new ProcessStartInfo(sProgram);
+            processStartInfo.UseShellExecute = false;
+            processStartInfo.Arguments = command;
+            processStartInfo.CreateNoWindow = true;
+            processStartInfo.WindowStyle = ProcessWindowStyle.Normal;
+            processStartInfo.FileName = @sProgram;
+
+            Process process = new Process();
+            process.StartInfo = processStartInfo;
+            process.Start();
+            Console.WriteLine("proceso en curso...");
+            process.WaitForExit();  // wait until finish the process
+            Console.WriteLine("Fin de Conversion OCR a TXT");
         }
 
        
-
+        /// <summary>
+        /// Convert PDF to Tiff
+        /// </summary>
+        /// <param name="sPathPdf">PDF file path</param>
+        /// <param name="sPathTiff">Tiff file path</param>
         public static void PdfToTiff(string sPathPdf, string sPathTiff)
         {
             try
@@ -139,18 +171,19 @@ namespace dirTrab
             }
         }
        
-
-        public static string FileToText(string sPathTxt)
+        /// <summary>
+        /// obtain text from Text file
+        /// </summary>
+        /// <param name="sPathTxt">text file path</param>
+        /// <returns>text from Txt file</returns>
+        public string FileToText(string sPathTxt)
         {
             Console.WriteLine("Inicio de lectura de Texto desde TXT");
             String sTextFile = "";
 
             try
             {
-                Console.WriteLine("sPathTxt:" + sPathTxt);
-                Console.WriteLine("proceso dentro de la funcion FiletoText:"+ System.Diagnostics.Process.GetCurrentProcess().Id);
                 sTextFile = System.IO.File.ReadAllText(@sPathTxt.Trim());
-                
                 return sTextFile;
             }
             catch (Exception e)

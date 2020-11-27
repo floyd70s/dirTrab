@@ -1,7 +1,10 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dirTrab", "dirTrab.csproj", "{8C81FD1A-626D-422E-89E5-148879E89D38}"
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30611.23
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dirTrab", "dirTrab.csproj", "{8C81FD1A-626D-422E-89E5-148879E89D38}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "DirTrabSetup", "..\DirTrabSetup\DirTrabSetup.vdproj", "{B3BD419A-E66E-4E55-A0FA-38466A0298FB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,5 +16,13 @@ Global
 		{8C81FD1A-626D-422E-89E5-148879E89D38}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8C81FD1A-626D-422E-89E5-148879E89D38}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8C81FD1A-626D-422E-89E5-148879E89D38}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3BD419A-E66E-4E55-A0FA-38466A0298FB}.Debug|Any CPU.ActiveCfg = Debug
+		{B3BD419A-E66E-4E55-A0FA-38466A0298FB}.Release|Any CPU.ActiveCfg = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {80113BDA-207F-42CB-9501-18918CECDC91}
 	EndGlobalSection
 EndGlobal

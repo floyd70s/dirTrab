@@ -194,6 +194,10 @@ namespace dirTrab
 
         /// <summary>
         /// insert instance of suseso to SQLite Database.
+        /// 
+        /// status:
+        ///     0 pending
+        ///     1 ok
         /// </summary>
         /// <returns> OK/Error </returns>
         public string addElement()
@@ -231,7 +235,7 @@ namespace dirTrab
         }
 
         /// <summary>
-        /// Obtain all records from suseso table with status "0" -->pending
+        /// Obtain all records from DIRTRAB table with status "0" -->pending
         /// </summary>
         /// <returns>dataset with records from SUSESO with status 0 - pending </returns>
         public DataTable getAll()
@@ -243,12 +247,40 @@ namespace dirTrab
             return miDataTable;
         }
 
-        public string update()
+        /// <summary>
+        /// Obtain  records from DIRTRAB table BY status 
+        /// status:
+        ///     0 pending
+        ///     1 ok
+        ///     2 pending pdf
+        /// </summary>
+        /// <returns>dataset with records from SUSESO with status 0 - pending </returns>
+        public DataTable getByStatus(int iStatus)
+        {
+            this.myDataManager = new DataManager(this.conStringSQLite);
+            //string SQL = "select aid,title,abstract,name,status,rol from SUSESO where status=0";
+            string SQL = "select aid,title,abstract,name,insertDate,status,orden,sentenceDate from DIRTRAB where status="+iStatus;
+            DataTable miDataTable = myDataManager.getDataTemp(SQL);
+            return miDataTable;
+        }
+
+
+
+        /// <summary>
+        /// update DIRTRAB table
+        /// status:
+        ///     0 pending
+        ///     1 ok
+        ///     2 pending pdf
+        /// </summary>
+        /// <param name="iStatus"></param>
+        /// <returns></returns>
+        public string update(int iStatus)
         {
             try
             {
                 this.myDataManager = new DataManager(this.conStringSQLite);
-                string SQL = "update DIRTRAB set status=1 where aid=" + this.aid;
+                string SQL = "update DIRTRAB set status="+ iStatus +"  where aid=" + this.aid;
 
                 string sMsg = myDataManager.setData(SQL);
                 if (sMsg == "ok")

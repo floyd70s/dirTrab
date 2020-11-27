@@ -16,6 +16,7 @@ namespace dirTrab
             string sMode = ConfigurationManager.AppSettings["Mode"];                    // execution mode: win/mac
             string sDebug = ConfigurationManager.AppSettings["Debug"];                  // Debug mode: on/off
             string sLanguage = ConfigurationManager.AppSettings["Language"];            // Language: eng/spa
+            string sCleanFolders= ConfigurationManager.AppSettings["CleanFolders"];     // flag for clean folders: on/off
             Console.WriteLine("****************************************");
             Console.WriteLine(" LEGAL BOT - DIRECCION DEL TRABAJO ");
             Console.WriteLine(" Version 1.0.0  19-11-2020");
@@ -104,9 +105,9 @@ namespace dirTrab
             }
 
 
-            DataTable miDataTableSuseso = miDirTrab.getAll();                //get pending records from DIRTRAB - Status=0
+            DataTable miDataTableDirTrab = miDirTrab.getAll();                //get pending records from DIRTRAB - Status=0
 
-            foreach (DataRow dtRow in miDataTableSuseso.Rows)
+            foreach (DataRow dtRow in miDataTableDirTrab.Rows)
             {
                 string sAID = dtRow[0].ToString();
                 miDirTrab.aid = sAID;
@@ -116,7 +117,7 @@ namespace dirTrab
                 if (bExistAIDJur)
                 {
                     Console.WriteLine("EL REGISTRO {0} YA EXISTE EN JUR_ADMINISTRATIVA", dtRow[0].ToString());
-                    miDirTrab.update();
+                    miDirTrab.update(1);
                     iCountNoNewsJur++;
                 }
                 else
@@ -129,7 +130,7 @@ namespace dirTrab
                     miJurAdmin.fechaRegistro = Convert.ToDateTime(dtRow[4]);
                     miJurAdmin.linkOrigen = dtRow[0].ToString() + "_archivo_01.pdf";
                     miJurAdmin.tipoDocumento = Convert.ToInt32(ConfigurationManager.AppSettings["DocumentType"]);
-                    miJurAdmin.linkOrigen = miDirTrab.savePdf(sAID, PDFPath,sMode);
+                    miJurAdmin.linkOrigen = miDirTrab.savePdf(sAID, PDFPath, sMode);
 
 
                     string sURLDetail = "https://www.dt.gob.cl/legislacion/1624/w3-article-" + sAID + ".html";
@@ -143,7 +144,7 @@ namespace dirTrab
                         // WIN VERSION
                         sPDFLocal = PDFPath + "\\" + sAID + "_archivo_01.pdf";
                         sTIFFLocal = TIFFPath + "\\" + sAID + "_archivo_01.tiff";
-                        sTXTLocal = TXTPath + "\\" + sAID + "archivo01";
+                        sTXTLocal = TXTPath + "\\" + sAID + "_archivo_01";
                     }
                     else
                     {
@@ -162,10 +163,27 @@ namespace dirTrab
                         miJurAdmin.textoSentencia = "no disponible ya que no se encuentra del pdf de la sentencia.";
                     }
                     miJurAdmin.addElement();
-                    miDirTrab.update();
+                    miDirTrab.update(1);
                     iCountJur++;
                 }
             }
+
+
+            //---------------------------------------------------------------------------------------------
+            // Clean folders
+            //---------------------------------------------------------------------------------------------
+            if (sCleanFolders == "on")
+            {
+                if (sMode == "win")
+                {
+                    miOCR.cleanFolderWin(TIFFPath,"tiff");
+                    miOCR.cleanFolderWin(PDFPath,"pdf");
+                    miOCR.cleanFolderWin(TXTPath,"txt");
+                    Console.WriteLine("archivos temporales borrados");
+                }
+            }
+
+
             #region COMMENTS
             Console.WriteLine("-----------------------------------------------------------------");
             Console.WriteLine("-- PASO 1                                                        ");
@@ -181,10 +199,16 @@ namespace dirTrab
             Console.WriteLine("-- SE CRUZAN LOS DATOS ENTRE LA BD LOCAL Y CENTRAL               ");
             Console.WriteLine("-- SE GUARDAN LOS ARCHIVOS PDF                                   ");
             Console.WriteLine("-- SE GUARDA EN TXT EL CONTENIDO                                 ");
-            Console.WriteLine("-- TOTAL DE REGISTROS REVISADOS :" + miDataTableSuseso.Rows.Count);
+            Console.WriteLine("-- TOTAL DE REGISTROS REVISADOS :" + miDataTableDirTrab.Rows.Count);
             Console.WriteLine("-- TOTAL DE REGISTROS INGRESADOS:" + iCountJur);
             Console.WriteLine("-- TOTAL DE REGISTROS NO INGRESADOS:" + iCountNoNewsJur);
             Console.WriteLine("-----------------------------------------------------------------");
+
+            Email miEmail = new Email();
+            miEmail.sendEmail(iMainCount, 0, iCountJur);
+            Console.WriteLine("-- FIN DE LA EJECUCION " + DateTime.Now + "----");
+
+
             #endregion
             if (sDebug == "on")
             {

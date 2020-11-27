@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "cGYYxI9dy6aA3SX3LIlclh+G1SfoSVjMcKaOw8WxiWAUgRkU0EinUfEN/8KnFAHTRnUfcvBcs0EtOxhOHBbTWw==",
+  "dgSpecHash": "Rt88sea/CAZ67kTJy687mVnN/K5Fn/0i+hFCihCKwlEWR2vgV8S9jrHKlJaX4uTFRJT7vOrj7IqtYEYM3Qnwxw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Claudio Perez\\Source\\Repos\\floyd70s\\dirTrab\\dirTrab.csproj",
+  "projectFilePath": "C:\\Users\\Claudio Perez\\source\\repos\\floyd70s\\dirTrab\\dirTrab.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Claudio Perez\\.nuget\\packages\\common.logging\\3.4.1\\common.logging.3.4.1.nupkg.sha512",
     "C:\\Users\\Claudio Perez\\.nuget\\packages\\common.logging.core\\3.4.1\\common.logging.core.3.4.1.nupkg.sha512",

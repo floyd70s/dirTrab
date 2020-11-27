@@ -63,6 +63,9 @@ namespace dirTrab
 
         /// <summary>
         /// insert instance of JUR_ADMINISTRATIVA to SQL Database.
+        /// migrado: 
+        ///     0 pending
+        ///     1 ok
         /// </summary>
         /// <returns> OK/Error </returns>
         public string addElement()
@@ -112,5 +115,46 @@ namespace dirTrab
                 return "error";
             }
         }
+
+
+        /// <summary>
+        /// update instance of JUR_ADMINISTRATIVA in SQL Database.
+        /// -migrado: 
+        ///     0 pending
+        ///     1 ok
+        /// </summary>
+        /// <returns> OK/Error </returns>
+        public string updateElement()
+        {
+            try
+            {
+                this.myDataManager = new DataManager(this.conStringSQL);
+                this.textoSentencia = this.textoSentencia.Replace("'", "");
+
+                string SQL = "UPDATE JUR_ADMINISTRATIVA (" +
+                              ",[TEXTOSENTENCIA]" +
+                              ",[MIGRADO]" +
+                              ") VALUES(" + this.textoSentencia + "',0) WHERE TIPODOCUMENTO_ID=2 AND ROL='"+this.rol+"' AND MIGRADO=0";
+
+                string sMsg = myDataManager.setDataSQL(SQL);
+                if (sMsg == "ok")
+                {
+                    Console.WriteLine("El registro  \"{0}\" actualizado correctamente.", this.rol);
+                    return "ok";
+                }
+                else
+                {
+                    return "error en el ingreso";
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("[Fatal Error]\r\n" + ex.Message + "\r\n" + ex.StackTrace + "\r\n" + ex.InnerException + "\r\n" + ex.Source);
+                Console.WriteLine("........Fail");
+                return "error";
+            }
+        }
+
+
     }
 }
