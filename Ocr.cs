@@ -5,6 +5,7 @@ using System.Drawing;
 using System.IO;
 using GrapeCity.Documents.Imaging;
 using GrapeCity.Documents.Pdf;
+using System.Text.RegularExpressions;
 
 namespace dirTrab
 {
@@ -184,6 +185,7 @@ namespace dirTrab
             try
             {
                 sTextFile = System.IO.File.ReadAllText(@sPathTxt.Trim());
+                sTextFile = ReplaceHexadecimalSymbols(sTextFile);
                 return sTextFile;
             }
             catch (Exception e)
@@ -196,5 +198,19 @@ namespace dirTrab
                 Console.WriteLine("Executing finally block.");
             }
         }
+
+        public static string ReplaceHexadecimalSymbols(string txt)
+        {
+            string r = "[\x00-\x08\x0B\x0C\x0E-\x1F\x26\x91\x92]";
+            txt = Regex.Replace(txt, r, " ", RegexOptions.Compiled);
+            txt = txt.Replace("<", "&lt;");
+            txt = txt.Replace(">", "&gt;");
+            txt = txt.Replace("\n\n", "*SALTO*");
+            txt = txt.Replace("\n", "");
+            txt = txt.Replace("*SALTO*", "\n\n");
+
+            return txt;
+        }
+
     }
 }

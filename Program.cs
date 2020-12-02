@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using System.Collections;
 using iText.Layout.Element;
 using System.IO;
+using System.Globalization;
 
 namespace dirTrab
 {
@@ -13,17 +14,25 @@ namespace dirTrab
     {
         public static void Main(string[] args)
         {
-            string sMode = ConfigurationManager.AppSettings["Mode"];                    // execution mode: win/mac
-            string sDebug = ConfigurationManager.AppSettings["Debug"];                  // Debug mode: on/off
-            string sLanguage = ConfigurationManager.AppSettings["Language"];            // Language: eng/spa
-            string sCleanFolders= ConfigurationManager.AppSettings["CleanFolders"];     // flag for clean folders: on/off
+            IFormatProvider culture = new CultureInfo("es-ES", true);
+            string sMode = ConfigurationManager.AppSettings["Mode"];                              // execution mode: win/mac
+            string sDebug = ConfigurationManager.AppSettings["Debug"];                           // Debug mode: on/off
+            string sLanguage = ConfigurationManager.AppSettings["Language"];                     // Language: eng/spa
+            string sCleanFolders= ConfigurationManager.AppSettings["CleanFolders"];              // flag for clean folders: on/off
+
+            int range = Convert.ToInt32(ConfigurationManager.AppSettings["range"]);              // 365 days
+            string iniDate = DateTime.Now.AddDays(-range).ToString("yyyy/MM/dd");       // initial search date
+            iniDate = iniDate.Replace("/", "-");
+            string endDate = DateTime.Now.ToString("yyyy/MM/dd");                       // search end date
+            endDate = endDate.Replace("/", "-");
+
             Console.WriteLine("****************************************");
             Console.WriteLine(" LEGAL BOT - DIRECCION DEL TRABAJO ");
             Console.WriteLine(" Version 1.0.0  19-11-2020");
             Console.WriteLine(" Modo de ejecucion: " + sMode);
             Console.WriteLine(" inicio de ejecucion: " + DateTime.Now);
+            Console.WriteLine(" Rango desde:" + iniDate + " hasta:"+endDate);
             Console.WriteLine("****************************************");
-            int range = Convert.ToInt32(ConfigurationManager.AppSettings["range"]);     // 365 days
 
 
             string PDFPath = "";
@@ -43,8 +52,6 @@ namespace dirTrab
                 TXTPath = ConfigurationManager.AppSettings["TXTPathMac"];               // Path MacOs to save PDF
             }
 
-            string iniDate = DateTime.Now.AddDays(-range).ToString("yyyy/MM/dd");       // initial search date
-            string endDate = DateTime.Now.ToString("yyyy/MM/dd");                       // search end date
             string jResult = "-";                                                       // string for save JSON 
             string sResult = "";                                                        // string for print messages  
             int iCountCycle = 0;                                                        // records saved in the current cycle
@@ -133,7 +140,7 @@ namespace dirTrab
                     miJurAdmin.linkOrigen = miDirTrab.savePdf(sAID, PDFPath, sMode);
 
 
-                    string sURLDetail = "https://www.dt.gob.cl/legislacion/1624/w3-article-" + sAID + ".html";
+                    //string sURLDetail = "https://www.dt.gob.cl/legislacion/1624/w3-article-" + sAID + ".html";
                     string sPDFLocal = "";
                     string sTIFFLocal = "";
                     string sTXTLocal = "";

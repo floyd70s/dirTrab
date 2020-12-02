@@ -78,4 +78,4 @@ C:\Users\Claudio Perez\Source\Repos\floyd70s\dirTrab\obj\Debug\netcoreapp3.1\dir
 C:\Users\Claudio Perez\Source\Repos\floyd70s\dirTrab\obj\Debug\netcoreapp3.1\dirTrab.dll
 C:\Users\Claudio Perez\Source\Repos\floyd70s\dirTrab\obj\Debug\netcoreapp3.1\dirTrab.pdb
 C:\Users\Claudio Perez\Source\Repos\floyd70s\dirTrab\obj\Debug\netcoreapp3.1\dirTrab.genruntimeconfig.cache
-C:\Users\Claudio Perez\Source\Repos\floyd70s\dirTrab\obj\Debug\netcoreapp3.1\dirTrab.csprojAssemblyReference.cache
+C:\Users\Claudio Perez\source\repos\floyd70s\dirTrab\obj\Debug\netcoreapp3.1\dirTrab.csprojAssemblyReference.cache

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Rt88sea/CAZ67kTJy687mVnN/K5Fn/0i+hFCihCKwlEWR2vgV8S9jrHKlJaX4uTFRJT7vOrj7IqtYEYM3Qnwxw==",
+  "dgSpecHash": "LOD3LLViUsvbulr23d9w2CBkNGqmB5R6HaEcyxmRO5/vCSS86WIpDVNX3KaszNri41GZ/0oJEGvV0RZthnRrrg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Claudio Perez\\source\\repos\\floyd70s\\dirTrab\\dirTrab.csproj",
+  "projectFilePath": "C:\\Users\\Claudio Perez\\Source\\Repos\\floyd70s\\dirTrab\\dirTrab.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Claudio Perez\\.nuget\\packages\\common.logging\\3.4.1\\common.logging.3.4.1.nupkg.sha512",
     "C:\\Users\\Claudio Perez\\.nuget\\packages\\common.logging.core\\3.4.1\\common.logging.core.3.4.1.nupkg.sha512",
@@ -24,7 +24,7 @@
     "C:\\Users\\Claudio Perez\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512",
     "C:\\Users\\Claudio Perez\\.nuget\\packages\\polly\\7.1.0\\polly.7.1.0.nupkg.sha512",
     "C:\\Users\\Claudio Perez\\.nuget\\packages\\portable.bouncycastle\\1.8.5\\portable.bouncycastle.1.8.5.nupkg.sha512",
-    "C:\\Users\\Claudio Perez\\.nuget\\packages\\restsharp\\106.11.7\\restsharp.106.11.7.nupkg.sha512",
+    "C:\\Users\\Claudio Perez\\.nuget\\packages\\restsharp\\106.11.8-alpha.0.7\\restsharp.106.11.8-alpha.0.7.nupkg.sha512",
     "C:\\Users\\Claudio Perez\\.nuget\\packages\\runtime.debian.8-x64.runtime.native.system.security.cryptography.openssl\\4.3.2\\runtime.debian.8-x64.runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512",
     "C:\\Users\\Claudio Perez\\.nuget\\packages\\runtime.fedora.23-x64.runtime.native.system.security.cryptography.openssl\\4.3.2\\runtime.fedora.23-x64.runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512",
     "C:\\Users\\Claudio Perez\\.nuget\\packages\\runtime.fedora.24-x64.runtime.native.system.security.cryptography.openssl\\4.3.2\\runtime.fedora.24-x64.runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512",
