@@ -80,8 +80,16 @@ namespace dirTrab
             {
                 foreach (var item in Directory.GetFiles(sPath + "\\", "*.*"))
                 {
-                    File.SetAttributes(item, FileAttributes.Normal);
-                    File.Delete(item);
+                    bool bValidateFile = CanDelete(item.ToString());
+                    if (bValidateFile)
+                    {
+                        File.SetAttributes(item, FileAttributes.Normal);
+                        File.Delete(item);
+                    }
+                    else
+                    {
+                        Console.WriteLine("No fue posible borrar el archivo {0}", item.ToString());
+                    }
                 }
             }
             catch (Exception ex)
@@ -128,7 +136,7 @@ namespace dirTrab
             process.StartInfo = processStartInfo;
             process.Start();
             Console.WriteLine("proceso en curso...");
-            process.WaitForExit();  // wait until finish the process
+            process.WaitForExit(); // wait until finish the process
             Console.WriteLine("Fin de Conversion OCR a TXT");
         }
 
@@ -198,7 +206,11 @@ namespace dirTrab
                 Console.WriteLine("Executing finally block.");
             }
         }
-
+        /// <summary>
+        /// replace Hexadecimal Symbols from txt file
+        /// </summary>
+        /// <param name="txt"></param>
+        /// <returns></returns>
         public static string ReplaceHexadecimalSymbols(string txt)
         {
             string r = "[\x00-\x08\x0B\x0C\x0E-\x1F\x26\x91\x92]";
@@ -210,6 +222,29 @@ namespace dirTrab
             txt = txt.Replace("*SALTO*", "\n\n");
 
             return txt;
+        }
+
+        /// <summary>
+        /// check if the file is being used by another process.
+        /// </summary>
+        /// <param path="string">path of the file to verify</param>
+        /// <returns>true/false</returns>
+        static bool CanDelete(string path)
+        {
+            bool bFree= true;
+            try
+            {
+                using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate))
+                {
+                    bFree = fs.CanWrite;
+                }
+                return bFree;
+               
+            }
+            catch (IOException ex)
+            {
+                return false;
+            }
         }
 
     }

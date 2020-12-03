@@ -5,13 +5,12 @@ using System.Configuration;
 using System.Data;
 //using Microsoft.Data.Sqlite;
 using System.Net;
+using System.IO;
+using System.Web;
+using System.Text;
 using iText.Kernel.Pdf;
 using iText.Kernel.Pdf.Canvas.Parser.Listener;
 using iText.Kernel.Pdf.Canvas.Parser;
-using System.IO;
-using System.Web;
-using RestSharp;
-using System.Text;
 
 namespace dirTrab
 {
@@ -411,42 +410,7 @@ namespace dirTrab
         }
 
 
-        /// <summary>
-        /// Extract text from web
-        /// </summary>
-        /// <param name="URL">URL  Detail</param>
-        /// <returns>string with the content of URL</returns>
-        public string extractTextFromWeb(string URL)
-        {
-            try
-            {
-                try
-                {
-                    string docImportSrc = string.Empty;
-                    var client = new RestClient(URL);
-                    client.Timeout = -1;
-                    var request = new RestRequest(Method.GET);
-
-                    IRestResponse response = client.Execute(request);
-                    Console.WriteLine("load website Detail Ok");
-
-                    return response.Content;
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("[Fatal Error]\r\n" + ex.Message + "\r\n" + ex.StackTrace + "\r\n" + ex.InnerException + "\r\n" + ex.Source);
-                    Console.WriteLine("........Fail");
-                    return "error";
-                }
-
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("[Fatal Error]\r\n" + ex.Message + "\r\n" + ex.StackTrace + "\r\n" + ex.InnerException + "\r\n" + ex.Source);
-                Console.WriteLine("........Fail");
-                return "";
-            }
-        }
+        
 
 
     }
