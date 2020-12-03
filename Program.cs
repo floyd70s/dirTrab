@@ -18,7 +18,7 @@ namespace dirTrab
             string sMode = ConfigurationManager.AppSettings["Mode"];                              // execution mode: win/mac
             string sDebug = ConfigurationManager.AppSettings["Debug"];                           // Debug mode: on/off
             string sLanguage = ConfigurationManager.AppSettings["Language"];                     // Language: eng/spa
-            string sCleanFolders= ConfigurationManager.AppSettings["CleanFolders"];              // flag for clean folders: on/off
+            string sCleanFolders = ConfigurationManager.AppSettings["CleanFolders"];              // flag for clean folders: on/off
 
             int range = Convert.ToInt32(ConfigurationManager.AppSettings["range"]);              // 365 days
             string iniDate = DateTime.Now.AddDays(-range).ToString("yyyy/MM/dd");       // initial search date
@@ -31,7 +31,7 @@ namespace dirTrab
             Console.WriteLine(" Version 1.0.0  19-11-2020");
             Console.WriteLine(" Modo de ejecucion: " + sMode);
             Console.WriteLine(" inicio de ejecucion: " + DateTime.Now);
-            Console.WriteLine(" Rango desde:" + iniDate + " hasta:"+endDate);
+            Console.WriteLine(" Rango desde:" + iniDate + " hasta:" + endDate);
             Console.WriteLine("****************************************");
 
 
@@ -183,9 +183,9 @@ namespace dirTrab
             {
                 if (sMode == "win")
                 {
-                    miOCR.cleanFolderWin(TIFFPath,"tiff");
-                    miOCR.cleanFolderWin(PDFPath,"pdf");
-                    miOCR.cleanFolderWin(TXTPath,"txt");
+                    miOCR.cleanFolderWin(TIFFPath, "tiff");
+                    miOCR.cleanFolderWin(PDFPath, "pdf");
+                    miOCR.cleanFolderWin(TXTPath, "txt");
                     Console.WriteLine("archivos temporales borrados");
                 }
             }

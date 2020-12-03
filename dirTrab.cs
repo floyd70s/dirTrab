@@ -11,7 +11,7 @@ using iText.Kernel.Pdf.Canvas.Parser;
 using System.IO;
 using System.Web;
 using RestSharp;
-
+using System.Text;
 
 namespace dirTrab
 {
@@ -118,18 +118,36 @@ namespace dirTrab
         {
             try
             {
-                string docImportSrc = string.Empty;
-                int iIndex = URL.IndexOf("=");
-                string sCookieValue = URL.Substring(iIndex);
-                var client = new RestClient(URL);
-                client.Timeout = -1;
-                var request = new RestRequest(Method.GET);
+                 string docImportSrc = string.Empty;
+                 int iIndex = URL.IndexOf("=");
+                 string sCookieValue = URL.Substring(iIndex);
+                 /*var client = new RestClient(URL);
+                 client.Timeout = -1;
+                 var request = new RestRequest(Method.GET);
 
-                request.AddHeader("Cookie", "search_q" + sCookieValue + "; search_fullresult=1");
-                IRestResponse response = client.Execute(request);
-                Console.WriteLine("load website Ok");
+                 request.AddHeader("Cookie", "search_q" + sCookieValue + "; search_fullresult=1");
+                 IRestResponse response = client.Execute(request);
+                 Console.WriteLine("load website Ok");
 
-                return response.Content;
+                 return response.Content;*/
+
+
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(URL);
+                request.CookieContainer = new CookieContainer();
+                request.CookieContainer.Add(new Cookie("search_q", sCookieValue,"/", ".www.dt.gob.cl"));
+                request.CookieContainer.Add(new Cookie("search_fullresult", "1", "/", ".www.dt.gob.cl"));
+                request.Method = "GET";
+
+
+                var webResponse = request.GetResponse();
+                var webStream = webResponse.GetResponseStream();
+                var responseReader = new StreamReader(webStream);
+                var response = responseReader.ReadToEnd();
+                //Console.WriteLine("Response: " + response);
+                responseReader.Close();
+
+                return response;
+
             }
             catch (Exception ex)
             {
@@ -259,7 +277,7 @@ namespace dirTrab
         {
             this.myDataManager = new DataManager(this.conStringSQLite);
             //string SQL = "select aid,title,abstract,name,status,rol from SUSESO where status=0";
-            string SQL = "select aid,title,abstract,name,insertDate,status,orden,sentenceDate from DIRTRAB where status="+iStatus;
+            string SQL = "select aid,title,abstract,name,insertDate,status,orden,sentenceDate from DIRTRAB where status=" + iStatus;
             DataTable miDataTable = myDataManager.getDataTemp(SQL);
             return miDataTable;
         }
@@ -280,7 +298,7 @@ namespace dirTrab
             try
             {
                 this.myDataManager = new DataManager(this.conStringSQLite);
-                string SQL = "update DIRTRAB set status="+ iStatus +"  where aid=" + this.aid;
+                string SQL = "update DIRTRAB set status=" + iStatus + "  where aid=" + this.aid;
 
                 string sMsg = myDataManager.setData(SQL);
                 if (sMsg == "ok")
@@ -310,16 +328,16 @@ namespace dirTrab
         /// <returns> string with link </returns>
         public string savePdf(string sAid, string PDFPath, string sMode)
         {
-                  
+
             string sUrlPDF = "https://www.dt.gob.cl/legislacion/1624/articles-" + sAid + "_recurso_pdf.pdf";
             string sLocalPDF = "";
             if (sMode == "win")
             {
-              sLocalPDF = PDFPath + "\\" + sAid + "_archivo_01.pdf";
+                sLocalPDF = PDFPath + "\\" + sAid + "_archivo_01.pdf";
             }
             else
             {
-              sLocalPDF = PDFPath + sAid + "_archivo_01.pdf";
+                sLocalPDF = PDFPath + sAid + "_archivo_01.pdf";
             }
             Console.WriteLine("salida de sLocalPDF: " + sLocalPDF);
 

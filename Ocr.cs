@@ -34,7 +34,7 @@ namespace dirTrab
             if (sMode == "win")
             {
                 //convert TIFF file to Text
-                ExecuteCommand("C:\\Program Files\\Tesseract-OCR\\tesseract.exe ","-l " + sLanguage + " " + sTIFFFilePath + " " + sTXTFilePath );
+                ExecuteCommand("C:\\Program Files\\Tesseract-OCR\\tesseract.exe ", "-l " + sLanguage + " " + sTIFFFilePath + " " + sTXTFilePath);
                 sText = FileToText(sTXTFilePath + ".txt");
             }
             else
@@ -78,15 +78,15 @@ namespace dirTrab
         {
             try
             {
-                foreach (var item in Directory.GetFiles(sPath+"\\", "*.*"))
+                foreach (var item in Directory.GetFiles(sPath + "\\", "*.*"))
                 {
                     File.SetAttributes(item, FileAttributes.Normal);
                     File.Delete(item);
                 }
             }
             catch (Exception ex)
-            { 
-               Console.WriteLine("No fue posible limpiar el directorio {0} { Error: {1}", sPath, ex.Message);
+            {
+                Console.WriteLine("No fue posible limpiar el directorio {0} { Error: {1}", sPath, ex.Message);
             }
         }
 
@@ -115,7 +115,7 @@ namespace dirTrab
         /// <param name="sProgram"></param>
         /// <param name="command"></param>
         public static void ExecuteCommand(string sProgram, string command)
-        {    
+        {
             Console.WriteLine("Inicio Conversion OCR a TXT");
             ProcessStartInfo processStartInfo = new ProcessStartInfo(sProgram);
             processStartInfo.UseShellExecute = false;
@@ -132,7 +132,7 @@ namespace dirTrab
             Console.WriteLine("Fin de Conversion OCR a TXT");
         }
 
-       
+
         /// <summary>
         /// Convert PDF to Tiff
         /// </summary>
@@ -168,10 +168,10 @@ namespace dirTrab
             catch (Exception ex)
             {
                 // handle other web exceptions
-                Console.WriteLine("No fue posible descargar el archivo a TIFF  Error: {1}",  ex.Message);
+                Console.WriteLine("No fue posible descargar el archivo a TIFF  Error: {1}", ex.Message);
             }
         }
-       
+
         /// <summary>
         /// obtain text from Text file
         /// </summary>

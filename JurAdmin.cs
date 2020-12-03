@@ -134,7 +134,7 @@ namespace dirTrab
                 string SQL = "UPDATE JUR_ADMINISTRATIVA (" +
                               ",[TEXTOSENTENCIA]" +
                               ",[MIGRADO]" +
-                              ") VALUES(" + this.textoSentencia + "',0) WHERE TIPODOCUMENTO_ID=2 AND ROL='"+this.rol+"' AND MIGRADO=0";
+                              ") VALUES(" + this.textoSentencia + "',0) WHERE TIPODOCUMENTO_ID=2 AND ROL='" + this.rol + "' AND MIGRADO=0";
 
                 string sMsg = myDataManager.setDataSQL(SQL);
                 if (sMsg == "ok")
