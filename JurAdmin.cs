@@ -62,6 +62,25 @@ namespace dirTrab
         }
 
         /// <summary>
+        /// Obtain all records from DIRTRAB table with status "0" -->pending
+        /// </summary>
+        /// <returns>dataset with records from SUSESO with status 0 - pending </returns>
+        public int getDocumentType(string sType)
+        {
+            int iId = 0;
+            this.myDataManager = new DataManager(this.conStringSQL);
+            string SQL = "select id from tipoDocumento where nombre ='" + sType + "'";
+            DataTable miDataTable = myDataManager.getDataSQL(SQL);
+            foreach (DataRow dtRow in miDataTable.Rows)
+            {
+                iId = Convert.ToInt32(dtRow[0]);
+            }
+            return iId;
+        }
+
+
+
+        /// <summary>
         /// insert instance of JUR_ADMINISTRATIVA to SQL Database.
         /// migrado: 
         ///     0 pending
@@ -94,7 +113,7 @@ namespace dirTrab
                               ",[LINKORIGEN]" +
                               ",[FECHAREGISTRO]" +
                               ",[MIGRADO]" +
-                              ") VALUES(" + "'',2,'NO DISPONIBLE','NO DISPONIBLE','" + this.rol + "','" + sfechaSentencia + "','" + this.titulo + "','" + this.sumario + "','" +
+                              ") VALUES(" + "'',"+this.tipoDocumento+",'NO DISPONIBLE','NO DISPONIBLE','" + this.rol + "','" + sfechaSentencia + "','" + this.titulo + "','" + this.sumario + "','" +
                               this.textoSentencia + "','" + this.linkOrigen + "','" + sfechaRegistro + "',1)";
 
                 string sMsg = myDataManager.setDataSQL(SQL);

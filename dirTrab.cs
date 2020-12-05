@@ -57,7 +57,7 @@ namespace dirTrab
         public string iid { get; set; }
 
         [JsonProperty("property-value_2302_name")]
-        public string propertyValue_2302_name { get; set; }
+        public string documentType { get; set; }
 
         [JsonProperty("score")]
         public string score { get; set; }
@@ -120,29 +120,17 @@ namespace dirTrab
                  string docImportSrc = string.Empty;
                  int iIndex = URL.IndexOf("=");
                  string sCookieValue = URL.Substring(iIndex);
-                 /*var client = new RestClient(URL);
-                 client.Timeout = -1;
-                 var request = new RestRequest(Method.GET);
-
-                 request.AddHeader("Cookie", "search_q" + sCookieValue + "; search_fullresult=1");
-                 IRestResponse response = client.Execute(request);
-                 Console.WriteLine("load website Ok");
-
-                 return response.Content;*/
-
-
+                
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(URL);
                 request.CookieContainer = new CookieContainer();
                 request.CookieContainer.Add(new Cookie("search_q", sCookieValue,"/", ".www.dt.gob.cl"));
                 request.CookieContainer.Add(new Cookie("search_fullresult", "1", "/", ".www.dt.gob.cl"));
                 request.Method = "GET";
 
-
                 var webResponse = request.GetResponse();
                 var webStream = webResponse.GetResponseStream();
                 var responseReader = new StreamReader(webStream);
                 var response = responseReader.ReadToEnd();
-                //Console.WriteLine("Response: " + response);
                 responseReader.Close();
 
                 return response;
@@ -222,7 +210,7 @@ namespace dirTrab
             try
             {
                 this.myDataManager = new DataManager(this.conStringSQLite);
-                string SQL = "INSERT INTO  'DIRTRAB' ('aid', 'title', 'abstract', 'name', 'insertDate', 'status', 'sentenceDate','orden') VALUES (" +
+                string SQL = "INSERT INTO  'DIRTRAB' ('aid', 'title', 'abstract', 'name', 'insertDate', 'status', 'sentenceDate','orden','documentType') VALUES (" +
                             this.aid + "," +
                             "'" + this.title + "'," +
                             "'" + this.abstrac + "'," +
@@ -230,7 +218,8 @@ namespace dirTrab
                             "'" + System.DateTime.Now + "'," +
                             "0," +
                             "'" + this.sentenceDate.ToString("yyyy/MM/dd") + "'," +
-                            "'" + this.hl1.Trim() + "');";
+                            "'" + this.hl1.Trim() + "'," +
+                            "'" + this.documentType + "');";
 
                 string sMsg = myDataManager.setData(SQL);
                 if (sMsg == "ok")
@@ -251,18 +240,16 @@ namespace dirTrab
             }
         }
 
-        /// <summary>
-        /// Obtain all records from DIRTRAB table with status "0" -->pending
-        /// </summary>
-        /// <returns>dataset with records from SUSESO with status 0 - pending </returns>
+       
+
         public DataTable getAll()
         {
             this.myDataManager = new DataManager(this.conStringSQLite);
-            //string SQL = "select aid,title,abstract,name,status,rol from SUSESO where status=0";
-            string SQL = "select aid,title,abstract,name,insertDate,status,orden,sentenceDate from DIRTRAB where status=0";
+            string SQL = "select aid,title,abstract,name,insertDate,status,orden,sentenceDate,documentType from DIRTRAB where status=0";
             DataTable miDataTable = myDataManager.getDataTemp(SQL);
             return miDataTable;
         }
+
 
         /// <summary>
         /// Obtain  records from DIRTRAB table BY status 
@@ -408,10 +395,6 @@ namespace dirTrab
                 return "";
             }
         }
-
-
-        
-
 
     }
 }

@@ -162,6 +162,11 @@ namespace dirTrab
             column.ColumnName = "sentenceDate";
             dt.Columns.Add(column);
 
+            column = new DataColumn();
+            column.DataType = System.Type.GetType("System.String");
+            column.ColumnName = "documentType";
+            dt.Columns.Add(column);
+
 
             try
             {
@@ -181,6 +186,7 @@ namespace dirTrab
                     row["status"] = reader.GetInt32(5);
                     row["orden"] = reader.GetString(6);
                     row["sentenceDate"] = reader.GetString(7);
+                    row["documentType"] = reader.GetString(8);
 
                     dt.Rows.Add(row);
                 }
@@ -227,5 +233,35 @@ namespace dirTrab
             }
             return dt;
         }
+
+        /// <summary>
+        /// get data from SQLLite DataBase 
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
+        public DataTable getDataSQLLite(string query)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                SQLiteConnection connection;
+                SQLiteCommand command;
+                connection = new SQLiteConnection(this.connectionString);
+
+                connection.Open();
+                command = new SQLiteCommand(query, connection);
+                dt.Load(command.ExecuteReader());
+                connection.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("[Fatal Error]\r\n" + ex.Message + "\r\n" + ex.StackTrace + "\r\n" + ex.InnerException + "\r\n" + ex.Source);
+                Console.WriteLine("........Fail");
+            }
+            return dt;
+        }
+
+
+
     }
 }

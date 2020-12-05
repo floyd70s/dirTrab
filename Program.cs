@@ -15,14 +15,14 @@ namespace dirTrab
         {
             IFormatProvider culture = new CultureInfo("es-ES", true);
             string sMode = ConfigurationManager.AppSettings["Mode"];                              // execution mode: win/mac
-            string sDebug = ConfigurationManager.AppSettings["Debug"];                           // Debug mode: on/off
-            string sLanguage = ConfigurationManager.AppSettings["Language"];                     // Language: eng/spa
+            string sDebug = ConfigurationManager.AppSettings["Debug"];                            // Debug mode: on/off
+            string sLanguage = ConfigurationManager.AppSettings["Language"];                      // Language: eng/spa
             string sCleanFolders = ConfigurationManager.AppSettings["CleanFolders"];              // flag for clean folders: on/off
 
-            int range = Convert.ToInt32(ConfigurationManager.AppSettings["range"]);              // 365 days
-            string iniDate = DateTime.Now.AddDays(-range).ToString("yyyy/MM/dd");       // initial search date
+            int range = Convert.ToInt32(ConfigurationManager.AppSettings["range"]);               // 365 days
+            string iniDate = DateTime.Now.AddDays(-range).ToString("yyyy/MM/dd");                 // initial search date
             iniDate = iniDate.Replace("/", "-");
-            string endDate = DateTime.Now.ToString("yyyy/MM/dd");                       // search end date
+            string endDate = DateTime.Now.ToString("yyyy/MM/dd");                                 // search end date
             endDate = endDate.Replace("/", "-");
 
             Console.WriteLine("****************************************");
@@ -135,15 +135,12 @@ namespace dirTrab
                     miJurAdmin.rol = dtRow[6].ToString();
                     miJurAdmin.fechaRegistro = Convert.ToDateTime(dtRow[4]);
                     miJurAdmin.linkOrigen = dtRow[0].ToString() + "_archivo_01.pdf";
-                    miJurAdmin.tipoDocumento = Convert.ToInt32(ConfigurationManager.AppSettings["DocumentType"]);
                     miJurAdmin.linkOrigen = miDirTrab.savePdf(sAID, PDFPath, sMode);
-
-
-                    //string sURLDetail = "https://www.dt.gob.cl/legislacion/1624/w3-article-" + sAID + ".html";
+                    miJurAdmin.tipoDocumento = miJurAdmin.getDocumentType(dtRow[8].ToString());
+                  
                     string sPDFLocal = "";
                     string sTIFFLocal = "";
                     string sTXTLocal = "";
-
 
                     if (sMode == "win")
                     {
