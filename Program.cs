@@ -27,7 +27,7 @@ namespace dirTrab
 
             Console.WriteLine("****************************************");
             Console.WriteLine(" LEGAL BOT - DIRECCION DEL TRABAJO ");
-            Console.WriteLine(" Version 1.0.0  19-11-2020");
+            Console.WriteLine(" Version 1.0.1  08-12-2020");
             Console.WriteLine(" Modo de ejecucion: " + sMode);
             Console.WriteLine(" inicio de ejecucion: " + DateTime.Now);
             Console.WriteLine(" Rango desde:" + iniDate + " hasta:" + endDate);
