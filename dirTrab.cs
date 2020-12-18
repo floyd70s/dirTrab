@@ -16,6 +16,8 @@ namespace dirTrab
 {
     public class dirTrab
     {
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         #region JSON PROPERTIES
         [JsonProperty("property-value_2302_pid")]
         public string propertyValue_2302_pid { get; set; }
@@ -212,7 +214,7 @@ namespace dirTrab
                 this.myDataManager = new DataManager(this.conStringSQLite);
                 string SQL = "INSERT INTO  'DIRTRAB' ('aid', 'title', 'abstract', 'name', 'insertDate', 'status', 'sentenceDate','orden','documentType') VALUES (" +
                             this.aid + "," +
-                            "'" + this.title + "'," +
+                            "'" + this.hl1 + "'," +
                             "'" + this.abstrac + "'," +
                             "'" + this.name + "'," +
                             "'" + System.DateTime.Now + "'," +
@@ -236,6 +238,7 @@ namespace dirTrab
             {
                 Console.WriteLine("[Fatal Error]\r\n" + ex.Message + "\r\n" + ex.StackTrace + "\r\n" + ex.InnerException + "\r\n" + ex.Source);
                 Console.WriteLine("........Fail");
+                log.Error("[Fatal Error]\r\n" + ex.Message + "\r\n" + ex.StackTrace + "\r\n" + ex.InnerException + "\r\n" + ex.Source);
                 return "error";
             }
         }
@@ -301,6 +304,8 @@ namespace dirTrab
             {
                 Console.WriteLine("[Fatal Error]\r\n" + ex.Message + "\r\n" + ex.StackTrace + "\r\n" + ex.InnerException + "\r\n" + ex.Source);
                 Console.WriteLine("........Fail");
+                log.Error("[Fatal Error]\r\n" + ex.Message + "\r\n" + ex.StackTrace + "\r\n" + ex.InnerException + "\r\n" + ex.Source);
+
                 return "error";
             }
         }
@@ -342,6 +347,7 @@ namespace dirTrab
                 //Not found
                 Console.WriteLine("El archivo {0} no pudo ser encontrado", sUrlPDF);
                 sUrlPDF = "no disponible";
+                log.Info("archivo no encontrado "+ sUrlPDF);
                 return sUrlPDF;
             }
             catch (WebException ex)
@@ -392,6 +398,7 @@ namespace dirTrab
             {
                 Console.WriteLine("[Fatal Error]\r\n" + ex.Message + "\r\n" + ex.StackTrace + "\r\n" + ex.InnerException + "\r\n" + ex.Source);
                 Console.WriteLine("........Fail");
+                log.Error("[Fatal Error]\r\n" + ex.Message + "\r\n" + ex.StackTrace + "\r\n" + ex.InnerException + "\r\n" + ex.Source);
                 return "";
             }
         }

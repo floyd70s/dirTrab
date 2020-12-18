@@ -20,6 +20,7 @@ C:\Users\Claudio Perez\Source\Repos\floyd70s\dirTrab\bin\Debug\itext.pdfa.dll
 C:\Users\Claudio Perez\Source\Repos\floyd70s\dirTrab\bin\Debug\itext.sign.dll
 C:\Users\Claudio Perez\Source\Repos\floyd70s\dirTrab\bin\Debug\itext.styledxmlparser.dll
 C:\Users\Claudio Perez\Source\Repos\floyd70s\dirTrab\bin\Debug\itext.svg.dll
+C:\Users\Claudio Perez\Source\Repos\floyd70s\dirTrab\bin\Debug\log4net.dll
 C:\Users\Claudio Perez\Source\Repos\floyd70s\dirTrab\bin\Debug\Newtonsoft.Json.dll
 C:\Users\Claudio Perez\Source\Repos\floyd70s\dirTrab\bin\Debug\System.Buffers.dll
 C:\Users\Claudio Perez\Source\Repos\floyd70s\dirTrab\bin\Debug\System.Configuration.ConfigurationManager.dll
@@ -52,6 +53,7 @@ C:\Users\Claudio Perez\Source\Repos\floyd70s\dirTrab\bin\Debug\itext.pdfa.xml
 C:\Users\Claudio Perez\Source\Repos\floyd70s\dirTrab\bin\Debug\itext.sign.xml
 C:\Users\Claudio Perez\Source\Repos\floyd70s\dirTrab\bin\Debug\itext.styledxmlparser.xml
 C:\Users\Claudio Perez\Source\Repos\floyd70s\dirTrab\bin\Debug\itext.svg.xml
+C:\Users\Claudio Perez\Source\Repos\floyd70s\dirTrab\bin\Debug\log4net.xml
 C:\Users\Claudio Perez\Source\Repos\floyd70s\dirTrab\bin\Debug\Newtonsoft.Json.xml
 C:\Users\Claudio Perez\Source\Repos\floyd70s\dirTrab\bin\Debug\System.Buffers.xml
 C:\Users\Claudio Perez\Source\Repos\floyd70s\dirTrab\bin\Debug\System.Configuration.ConfigurationManager.xml

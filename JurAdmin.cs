@@ -6,6 +6,7 @@ namespace dirTrab
 {
     public class JurAdmin
     {
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         #region PROPERTIES
         private string conStringSQL = ConfigurationManager.ConnectionStrings["conStringSQL"].ConnectionString;
         public string GUID { get; set; }
@@ -114,7 +115,7 @@ namespace dirTrab
                               ",[FECHAREGISTRO]" +
                               ",[MIGRADO]" +
                               ") VALUES(" + "'',"+this.tipoDocumento+",'NO DISPONIBLE','NO DISPONIBLE','" + this.rol + "','" + sfechaSentencia + "','" + this.titulo + "','" + this.sumario + "','" +
-                              this.textoSentencia + "','" + this.linkOrigen + "','" + sfechaRegistro + "',1)";
+                              this.textoSentencia + "','" + this.linkOrigen + "','" + sfechaRegistro + "',0)";
 
                 string sMsg = myDataManager.setDataSQL(SQL);
                 if (sMsg == "ok")
@@ -131,6 +132,7 @@ namespace dirTrab
             {
                 Console.WriteLine("[Fatal Error]\r\n" + ex.Message + "\r\n" + ex.StackTrace + "\r\n" + ex.InnerException + "\r\n" + ex.Source);
                 Console.WriteLine("........Fail");
+                log.Error("[Fatal Error]\r\n" + ex.Message + "\r\n" + ex.StackTrace + "\r\n" + ex.InnerException + "\r\n" + ex.Source);
                 return "error";
             }
         }
@@ -170,10 +172,11 @@ namespace dirTrab
             {
                 Console.WriteLine("[Fatal Error]\r\n" + ex.Message + "\r\n" + ex.StackTrace + "\r\n" + ex.InnerException + "\r\n" + ex.Source);
                 Console.WriteLine("........Fail");
+                log.Error("[Fatal Error]\r\n" + ex.Message + "\r\n" + ex.StackTrace + "\r\n" + ex.InnerException + "\r\n" + ex.Source);
+
                 return "error";
             }
         }
-
 
     }
 }

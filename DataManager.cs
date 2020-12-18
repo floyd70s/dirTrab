@@ -12,6 +12,7 @@ namespace dirTrab
 {
     public class DataManager
     {
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public string connectionString;
 
         /// <summary>
@@ -47,6 +48,7 @@ namespace dirTrab
             {
                 Console.WriteLine("[Fatal Error]\r\n" + ex.Message + "\r\n" + ex.StackTrace + "\r\n" + ex.InnerException + "\r\n" + ex.Source);
                 Console.WriteLine("........Fail");
+                log.Error("[Fatal Error]\r\n" + ex.Message + "\r\n" + ex.StackTrace + "\r\n" + ex.InnerException + "\r\n" + ex.Source);
                 return "error";
             }
         }
@@ -75,10 +77,10 @@ namespace dirTrab
             {
                 Console.WriteLine("[Fatal Error]\r\n" + ex.Message + "\r\n" + ex.StackTrace + "\r\n" + ex.InnerException + "\r\n" + ex.Source);
                 Console.WriteLine("........Fail");
+                log.Error("[Fatal Error]\r\n" + ex.Message + "\r\n" + ex.StackTrace + "\r\n" + ex.InnerException + "\r\n" + ex.Source);
                 return "error";
             }
         }
-
 
         /// <summary>
         /// generic function for execute SQL command with SQLite BDDriver.
@@ -103,13 +105,18 @@ namespace dirTrab
             catch (Exception ex)
             {
                 Console.WriteLine("[Fatal Error]\r\n" + ex.Message + "\r\n" + ex.StackTrace + "\r\n" + ex.InnerException + "\r\n" + ex.Source);
+                log.Error("[Fatal Error]\r\n" + ex.Message + "\r\n" + ex.StackTrace + "\r\n" + ex.InnerException + "\r\n" + ex.Source);
                 Console.WriteLine("........Fail");
             }
 
             return dt;
         }
 
-
+        /// <summary>
+        /// mapping JSON with class
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
         public DataTable getDataTemp(string query)
         {
             DataTable dt = new DataTable();
@@ -198,14 +205,11 @@ namespace dirTrab
             {
                 Console.WriteLine("[Fatal Error]\r\n" + ex.Message + "\r\n" + ex.StackTrace + "\r\n" + ex.InnerException + "\r\n" + ex.Source);
                 Console.WriteLine("........Fail");
+                log.Error("[Fatal Error]\r\n" + ex.Message + "\r\n" + ex.StackTrace + "\r\n" + ex.InnerException + "\r\n" + ex.Source);
             }
 
             return dt;
         }
-
-
-
-
 
         /// <summary>
         /// generic function for execute SQL command with SQL SERVER BDDriver.
@@ -230,6 +234,7 @@ namespace dirTrab
             {
                 Console.WriteLine("[Fatal Error]\r\n" + ex.Message + "\r\n" + ex.StackTrace + "\r\n" + ex.InnerException + "\r\n" + ex.Source);
                 Console.WriteLine("........Fail");
+                log.Error("[Fatal Error]\r\n" + ex.Message + "\r\n" + ex.StackTrace + "\r\n" + ex.InnerException + "\r\n" + ex.Source);
             }
             return dt;
         }
@@ -257,11 +262,9 @@ namespace dirTrab
             {
                 Console.WriteLine("[Fatal Error]\r\n" + ex.Message + "\r\n" + ex.StackTrace + "\r\n" + ex.InnerException + "\r\n" + ex.Source);
                 Console.WriteLine("........Fail");
+                log.Error("[Fatal Error]\r\n" + ex.Message + "\r\n" + ex.StackTrace + "\r\n" + ex.InnerException + "\r\n" + ex.Source);
             }
             return dt;
         }
-
-
-
     }
 }

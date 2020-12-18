@@ -7,10 +7,12 @@ using System.Collections;
 using System.IO;
 using System.Globalization;
 
+[assembly: log4net.Config.XmlConfigurator(Watch = true)]
 namespace dirTrab
 {
     class Program
     {
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public static void Main(string[] args)
         {
             IFormatProvider culture = new CultureInfo("es-ES", true);
@@ -27,12 +29,12 @@ namespace dirTrab
 
             Console.WriteLine("****************************************");
             Console.WriteLine(" LEGAL BOT - DIRECCION DEL TRABAJO ");
-            Console.WriteLine(" Version 1.0.1  08-12-2020");
+            Console.WriteLine(" Version 1.1.1  18-12-2020");
             Console.WriteLine(" Modo de ejecucion: " + sMode);
             Console.WriteLine(" inicio de ejecucion: " + DateTime.Now);
             Console.WriteLine(" Rango desde:" + iniDate + " hasta:" + endDate);
             Console.WriteLine("****************************************");
-
+            log.Info("inicio de ejecucion DIRTRAB");
 
             string PDFPath = "";
             string TIFFPath = "";
@@ -137,7 +139,8 @@ namespace dirTrab
                     miJurAdmin.linkOrigen = dtRow[0].ToString() + "_archivo_01.pdf";
                     miJurAdmin.linkOrigen = miDirTrab.savePdf(sAID, PDFPath, sMode);
                     miJurAdmin.tipoDocumento = miJurAdmin.getDocumentType(dtRow[8].ToString());
-                  
+                    int iResolution = Convert.ToInt32(ConfigurationManager.AppSettings["resolutionTiff"]);
+
                     string sPDFLocal = "";
                     string sTIFFLocal = "";
                     string sTXTLocal = "";
@@ -159,7 +162,7 @@ namespace dirTrab
 
                     if (miJurAdmin.linkOrigen != "no disponible")
                     {
-                        miJurAdmin.textoSentencia = miOCR.PdfToText(sMode, sPDFLocal, sTIFFLocal, sTXTLocal, TIFFPath, TXTPath, sLanguage);
+                        miJurAdmin.textoSentencia = miOCR.PdfToText(sMode, sPDFLocal, sTIFFLocal, sTXTLocal, TIFFPath, TXTPath, sLanguage, iResolution);
                     }
                     else
                     {

@@ -11,6 +11,7 @@ namespace dirTrab
 {
     public class Ocr
     {
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public Ocr()
         {
         }
@@ -26,10 +27,10 @@ namespace dirTrab
         /// <param name="sTXTFPath"></param>
         /// <param name="sLanguage"></param>
         /// <returns></returns>
-        public string PdfToText(string sMode, string sPDFFilePath, string sTIFFFilePath, string sTXTFilePath, string sTIFFPath, string sTXTFPath, string sLanguage)
+        public string PdfToText(string sMode, string sPDFFilePath, string sTIFFFilePath, string sTXTFilePath, string sTIFFPath, string sTXTFPath, string sLanguage,int iResolution)
         {
             string sText = "";
-            PdfToTiff(sPDFFilePath, sTIFFFilePath);
+            PdfToTiff(sPDFFilePath, sTIFFFilePath, iResolution);
 
             if (sMode == "win")
             {
@@ -59,6 +60,7 @@ namespace dirTrab
             catch (Exception e)
             {
                 Console.WriteLine("Exception: " + e.Message);
+                log.Error("Exception: " + e.Message);
                 return "no fue posible borrar los directorios temporales de conversion OCR.";
             }
             finally
@@ -95,6 +97,7 @@ namespace dirTrab
             catch (Exception ex)
             {
                 Console.WriteLine("No fue posible limpiar el directorio {0} { Error: {1}", sPath, ex.Message);
+                log.Info("No fue posible limpiar el directorio"+sPath+ " Error: "+ ex.Message);
             }
         }
 
@@ -146,7 +149,7 @@ namespace dirTrab
         /// </summary>
         /// <param name="sPathPdf">PDF file path</param>
         /// <param name="sPathTiff">Tiff file path</param>
-        public static void PdfToTiff(string sPathPdf, string sPathTiff)
+        public static void PdfToTiff(string sPathPdf, string sPathTiff,int iResolution)
         {
             try
             {
@@ -160,7 +163,7 @@ namespace dirTrab
                 options.BackColor = Color.White;
 
                 //The tiff file must have high resolution
-                options.Resolution = 350;
+                options.Resolution = iResolution;
 
                 //Set range for page
                 int paginas = doc.Pages.Count;
@@ -177,6 +180,7 @@ namespace dirTrab
             {
                 // handle other web exceptions
                 Console.WriteLine("No fue posible descargar el archivo a TIFF  Error: {1}", ex.Message);
+                log.Error("No fue posible descargar el archivo a TIFF  Error: "+ ex.Message);
             }
         }
 
@@ -199,6 +203,7 @@ namespace dirTrab
             catch (Exception e)
             {
                 Console.WriteLine("Exception: " + e.Message);
+                log.Error("Exception: " + e.Message);
                 return "no disponible";
             }
             finally
